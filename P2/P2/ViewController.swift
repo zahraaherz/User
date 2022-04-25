@@ -33,8 +33,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     {
         super.viewDidLoad()
        
-        DispatchQueue.global(qos: .userInteractive).async
-        {
+        /*DispatchQueue.global(qos: .userInteractive).async
+        {*/
             self.fetchUsers
                 { data in
                     self.Ausers = data
@@ -43,7 +43,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                         self.tableView.reloadData()
                     }
                 }
-        }
+       // }
         
         if x == 1
         {
