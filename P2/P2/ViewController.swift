@@ -53,7 +53,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         if x == 1
         {
            // tableView.isHidden = false
-           // CollectionView.isHidden = true
+            CollectionView.isHidden = true
             Button.setTitle("Go To CollectionView", for: .normal)
             x += 1
          }
