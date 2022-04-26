@@ -29,22 +29,27 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     var TotalPage: Int = 0
     var filteredData: [User]!
     
+    var myAlert: UIAlertController = UIAlertController()
+
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-       
-        /*DispatchQueue.global(qos: .userInteractive).async
-        {*/
-            self.fetchUsers
-                { data in
-                    self.Ausers = data
-                    DispatchQueue.main.async
-                    {
-                        self.tableView.reloadData()
-                    }
+        myAlert = self.loader()
+
+        self.present(myAlert,animated: false, completion: nil)
+
+        self.fetchUsers
+            { data in
+                self.Ausers = data
+                DispatchQueue.main.async
+                {
+                    self.tableView.reloadData()
+                    self.stopLoader(loader: self.myAlert)
                 }
-       // }
+            }
         
+
         if x == 1
         {
            // tableView.isHidden = false
@@ -66,6 +71,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         filteredData = Ausers
 
     }
+
     
     @IBAction func ButtonT(_ sender: Any)
     {
@@ -79,7 +85,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                 DispatchQueue.main.async
                 {
                     self.tableView.reloadData()
-                    //print(self.Ausers.count)
                 }
                 
             case 2 :
@@ -90,7 +95,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                 DispatchQueue.main.async
                 {
                     self.CollectionView.reloadData()
-                   // print(self.Ausers.count)
                 }
             default:
                 print("switch default")
@@ -108,11 +112,12 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 
     func fetchUsers(completion: @escaping ([User])-> () )
     {
-    
+        
         AF.request("https://reqres.in/api/users?page=\(page)", method: .get).response { [self]
                 response in
                 guard let data = response.data else { return }
                 do {
+                 
                     let decoder = JSONDecoder()
                     let userData = try decoder.decode(Users.self, from: data)
                     TotalPage += userData.total!
@@ -120,7 +125,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                     {
                         self.Ausers = self.Ausers + userData.data!
                         completion(Ausers)
-
                     }
                    
                 } catch let error {
@@ -130,6 +134,30 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     
         }
     
+   
+    func loader() -> UIAlertController
+    {
+        
+            let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.style = UIActivityIndicatorView.Style.large
+            loadingIndicator.startAnimating()
+            alert.view.addSubview(loadingIndicator)
+            //present(alert, animated: true, completion: nil)
+            return alert
+        
+    }
+    
+    func stopLoader(loader : UIAlertController)
+    {
+            DispatchQueue.main.async
+            {
+                loader.dismiss(animated: false, completion: nil)
+            }
+        
+    }
+      
 // ------------------------------------------ functions for paginiation --------------------------------------------
     
 
@@ -150,7 +178,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                             DispatchQueue.main.async
                             {
                                 self.tableView.reloadData()
-     
                             }
                         }
                         else if(self.tableView.isHidden == true )
@@ -282,16 +309,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
             cell.Name.text = user.first_name! + " " + user.last_name!
         
             let url =  user.avatar!
-            /*DispatchQueue.global().async{
-               // cell.Images.image = nil
-                if let data = try? Data(contentsOf: url)
-                {
-                    DispatchQueue.main.async {
-                        cell.Images.image = UIImage(data: data)!
-                    }
-                }
-            }*/
-        cell.Images.downloadedFrom(url)
+
+            cell.Images.downloadedFrom(url)
             
             return cell
      }
