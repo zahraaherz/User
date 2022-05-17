@@ -57,11 +57,24 @@ class DeatailesViewController: UIViewController{
     }
     @IBAction  func Save(_ sender: Any){
         if self.email.text != nil && self.firstName.text != nil && self.lastName.text != nil{
-            user?.email = email.text
-            user?.first_name = firstName.text
-            user?.last_name = lastName.text
-            self.delegate?.updataData(userD: user!)
-            self.navigationController?.popViewController(animated: true)
+            
+            let refreshAlert = UIAlertController(title: "Save", message: "Are you sure you want to modify this user?", preferredStyle: UIAlertController.Style.alert)
+
+            refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [self] (action: UIAlertAction!) in
+                user?.email = email.text
+                user?.first_name = firstName.text
+                user?.last_name = lastName.text
+                self.delegate?.updataData(userD: user!)
+                self.navigationController?.popViewController(animated: true)
+            }))
+
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+                self.enableText()
+            }))
+
+            present(refreshAlert, animated: true, completion: nil)
+
+
             
         } else {
             let alertC = UIAlertController(title: "Demo", message: "Please enter text in textField.", preferredStyle: UIAlertController.Style.alert)
