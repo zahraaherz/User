@@ -3,10 +3,10 @@ import Foundation
 
 struct User : Codable {
   let id: Int?
-  let email: String?
-  let first_name: String?
-  let last_name: String?
-  let avatar: String?
+  var email: String?
+  var first_name: String?
+  var last_name: String?
+  var avatar: String?
     
   
   enum CodingKeys: String, CodingKey {

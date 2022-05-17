@@ -19,7 +19,7 @@ struct Users: Codable {
     let per_page : Int?
     let total : Int?
     let total_pages : Int?
-    let data : [User]?
+    var data : [User]?
     let support : Support?
 
     enum CodingKeys: String, CodingKey {
