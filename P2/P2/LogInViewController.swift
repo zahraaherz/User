@@ -8,15 +8,10 @@
 import UIKit
 import Alamofire
 
-class LogInViewController: UIViewController , UISearchBarDelegate{
+class LogInViewController: UIViewController , UISearchBarDelegate {
 
-    @IBOutlet var EmailTF: UITextField!
-    @IBOutlet var PassTF: UITextField!
-    
-    var Ausers = [User]()
-    var TotalPage: Int = 0
-    var page : Int = 1
-
+    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var passwordTextField: UITextField!
     
     @IBOutlet var LoadView: UIView! {
         didSet {
@@ -28,8 +23,8 @@ class LogInViewController: UIViewController , UISearchBarDelegate{
 
     let alert = UIAlertController(title: "Erorr!", message: "Incorect Data", preferredStyle: .alert)
         
-    var Email = "1"//"Zahra@gmail.com"
-    var Pass =  "1"//"hello123"
+    var email = "1"//"Zahra@gmail.com"
+    var password =  "1"//"hello123"
     
     let defaults = UserDefaults.standard
     
@@ -39,6 +34,7 @@ class LogInViewController: UIViewController , UISearchBarDelegate{
 
         hideSpinner()
         if defaults.bool(forKey: "In") {
+            
             DispatchQueue.main.async {
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                 self.navigationController?.isNavigationBarHidden = false
@@ -57,29 +53,31 @@ class LogInViewController: UIViewController , UISearchBarDelegate{
       LoadView.isHidden = true
     }
 
- 
     @IBAction func LogInButton(_ sender: Any) {
         
         self.showSpinner()
         Timer.scheduledTimer(withTimeInterval: 2.0 , repeats: false){ [self] (t) in
-        if (self.Email == self.EmailTF.text! && self.Pass == self.PassTF.text!)
-            {
+        if (self.email == self.emailTextField.text! && self.password == self.passwordTextField.text!){
+            
                 hideSpinner()
                 self.defaults.set( true , forKey: "In")
-                UserDefaults.standard.synchronize()
-            }
-                else if (self.Email != self.EmailTF.text! || self.Pass != self.PassTF.text!)
-            {
+                defaults.synchronize()
+            
+            } else if (self.email != self.emailTextField.text! || self.password != self.passwordTextField.text!) {
+                
                 hideSpinner()
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                              self.present(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
+                
             }
         }
     }
+    
 }
 
 fileprivate var aview: UIView?
 
+// MARK: -
 extension LogInViewController
 {
     @objc func dismissOnTapOutside()
