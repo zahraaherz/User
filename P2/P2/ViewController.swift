@@ -27,13 +27,14 @@ class ViewController: UIViewController , EditData {
     
     var saveData : [User] = []
     
-    var isFiltered: Bool = false
+    var isFiltered = false
     
-    var totalPage: Int = 0
+    var totalPage = 0
         
-    var page: Int = 1
+    var page = 1
     
-    var swichViews: Int = 1
+    var swichViews = 1
+   
    
     override func viewDidLoad(){
         
