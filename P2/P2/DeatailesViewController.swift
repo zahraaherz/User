@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol editData{
-    func updatingData(userD: User?)
+protocol EditData{
+    
+    func update(userD: User?)
 }
 
 class DeatailesViewController: UIViewController{
@@ -27,7 +28,7 @@ class DeatailesViewController: UIViewController{
     
     @IBOutlet weak var cancel: UIButton!
 
-    var delegate : editData?
+    var delegate : EditData?
 
     var user: User?
 
@@ -45,15 +46,18 @@ class DeatailesViewController: UIViewController{
     }
     
     func enableText(){
+        
         email.isEnabled = true
         firstName.isEnabled = true
         lastName.isEnabled = true
         editButton.isHidden = true
         cancel.isHidden = false
         save.isHidden = false
+        
     }
     
     func disableText(){
+        
         email.isEnabled = false
         firstName.isEnabled = false
         lastName.isEnabled = false
@@ -63,15 +67,16 @@ class DeatailesViewController: UIViewController{
         email.text = user?.email
         firstName.text = user?.first_name
         lastName.text = user?.last_name
+
     }
     
-    @IBAction func EditButoon(_ sender: Any){
+    @IBAction func editButoon(_ sender: Any){
         
         self.enableText()
         
     }
     
-    @IBAction  func Save(_ sender: Any){
+    @IBAction  func save(_ sender: Any){
         
         if self.email.text != nil && self.firstName.text != nil && self.lastName.text != nil{
             
@@ -81,7 +86,7 @@ class DeatailesViewController: UIViewController{
                 user?.email = email.text
                 user?.first_name = firstName.text
                 user?.last_name = lastName.text
-                self.delegate?.updatingData(userD: user!)
+                self.delegate?.update(userD: user!)
                 self.navigationController?.popViewController(animated: true)
             }))
 
@@ -93,24 +98,24 @@ class DeatailesViewController: UIViewController{
             
         } else {
             
-            let alertC = UIAlertController(title: "Demo", message: "Please enter text in textField.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Demo", message: "Please enter text in textField.", preferredStyle: UIAlertController.Style.alert)
             let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-            alertC.addAction(action)
-            self.present(alertC, animated: true, completion: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
             
         }
     }
     
-    @IBAction func ImageEdit(_ sender: Any){
-        
-        let L = UIImagePickerController()
-        L.sourceType = .photoLibrary
-        L.delegate = self
-        L.allowsEditing = true
-        present(L, animated: true)
-    }
+//    @IBAction func ImageEdit(_ sender: Any){
+//
+//        let L = UIImagePickerController()
+//        L.sourceType = .photoLibrary
+//        L.delegate = self
+//        L.allowsEditing = true
+//        present(L, animated: true)
+//    }
     
-    @IBAction func Cancel(_ sender: Any){
+    @IBAction func cancel(_ sender: Any){
         
         let cancelAlert = UIAlertController(title: "Cancel!!", message: "All modification will be lost.", preferredStyle: UIAlertController.Style.alert)
 
@@ -136,10 +141,13 @@ extension DeatailesViewController: UIImagePickerControllerDelegate , UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let images = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
-             image.image = images
+            
+            image.image = images
         }
+        
         picker.dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         picker.dismiss(animated: true, completion: nil)

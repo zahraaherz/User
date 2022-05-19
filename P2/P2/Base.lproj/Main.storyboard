@@ -58,8 +58,8 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="412" height="102"/>
                                         <connections>
-                                            <outlet property="Images" destination="wiD-r3-Ss1" id="RYG-dc-j0P"/>
-                                            <outlet property="Name" destination="a82-bm-B1U" id="An6-HG-ees"/>
+                                            <outlet property="image" destination="wiD-r3-Ss1" id="RYG-dc-j0P"/>
+                                            <outlet property="name" destination="a82-bm-B1U" id="An6-HG-ees"/>
                                             <segue destination="do3-x3-NTj" kind="show" identifier="DeatailesCollection" id="FjE-Tb-ipT"/>
                                         </connections>
                                     </collectionViewCell>
@@ -309,9 +309,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="ANT-tP-tXq"/>
                     <connections>
-                        <outlet property="LoadView" destination="ZoW-2b-0Ha" id="oMV-v4-I4V"/>
                         <outlet property="emailTextField" destination="lwg-Rd-VIt" id="nhX-ld-qhf"/>
-                        <outlet property="ind" destination="y4t-wd-aln" id="j0j-Da-dfE"/>
+                        <outlet property="indicator" destination="y4t-wd-aln" id="j0j-Da-dfE"/>
+                        <outlet property="loadView1" destination="ZoW-2b-0Ha" id="oMV-v4-I4V"/>
                         <outlet property="passwordTextField" destination="aDd-GD-DRN" id="McX-hO-euv"/>
                     </connections>
                 </viewController>

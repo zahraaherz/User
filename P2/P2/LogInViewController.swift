@@ -13,13 +13,14 @@ class LogInViewController: UIViewController , UISearchBarDelegate {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
-    @IBOutlet var LoadView: UIView! {
+    @IBOutlet var loadView1: UIView! {
         didSet {
-            LoadView.layer.cornerRadius = 6
+            
+            loadView1.layer.cornerRadius = 6
         }
       }
     
-    @IBOutlet var ind: UIActivityIndicatorView!
+    @IBOutlet var indicator: UIActivityIndicatorView!
 
     let alert = UIAlertController(title: "Erorr!", message: "Incorect Data", preferredStyle: .alert)
         
@@ -39,18 +40,19 @@ class LogInViewController: UIViewController , UISearchBarDelegate {
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                 self.navigationController?.isNavigationBarHidden = false
                 self.navigationController!.setViewControllers([vc], animated:true)
+                
             }
         }
     }
 
     private func showSpinner() {
-      ind.startAnimating()
-      LoadView.isHidden = false
+      indicator.startAnimating()
+      loadView1.isHidden = false
     }
 
     private func hideSpinner() {
-      ind.stopAnimating()
-      LoadView.isHidden = true
+      indicator.stopAnimating()
+      loadView1.isHidden = true
     }
 
     @IBAction func LogInButton(_ sender: Any) {
@@ -66,7 +68,7 @@ class LogInViewController: UIViewController , UISearchBarDelegate {
             } else if (self.email != self.emailTextField.text! || self.password != self.passwordTextField.text!) {
                 
                 hideSpinner()
-                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 
             }

@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 import _Concurrency
 
-class ViewController: UIViewController , editData {
+class ViewController: UIViewController , EditData {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var searchBar: UISearchBar!
@@ -27,13 +27,13 @@ class ViewController: UIViewController , editData {
     
     var saveData : [User] = []
     
-    var isFiltered = false
+    var isFiltered: Bool = false
     
     var totalPage: Int = 0
         
     var page: Int = 1
     
-    var buttonSwich: Int = 1
+    var swichViews: Int = 1
    
     override func viewDidLoad(){
         
@@ -44,6 +44,7 @@ class ViewController: UIViewController , editData {
         self.present(myAlert,animated: false, completion: nil)
         
         self.navigationItem.setHidesBackButton(true, animated: false)
+        // undo button is visable
         self.navigationItem.leftBarButtonItem?.isEnabled = false
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
 
@@ -55,11 +56,11 @@ class ViewController: UIViewController , editData {
                 }
             }
         
-        if buttonSwich == 1 {
+        if swichViews == 1 {
             
             collectionView.isHidden = true
             button.setTitle("Go To CollectionView", for: .normal)
-            buttonSwich += 1
+            swichViews += 1
          }
         
         filteredData = usersModel
@@ -73,13 +74,15 @@ class ViewController: UIViewController , editData {
     
     @IBAction func ButtonT(_ sender: Any){
          
-       switch buttonSwich {
+       switch swichViews {
            
             case 1:
                 tableView.isHidden = false
                 collectionView.isHidden = true
+           
                 (sender as AnyObject).setTitle("Go To CollectionView", for: .normal)
-                buttonSwich += 1
+           
+                swichViews += 1
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -87,8 +90,10 @@ class ViewController: UIViewController , editData {
             case 2:
                 tableView.isHidden = true
                 collectionView.isHidden = false
+           
                 (sender as AnyObject).setTitle("Go To TableView", for: .normal)
-                buttonSwich -= 1
+           
+                swichViews -= 1
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -108,17 +113,17 @@ class ViewController: UIViewController , editData {
             guard let data = response.data else {
                 return
             }
-        do {
-            let decoder = JSONDecoder()
-            let userData = try decoder.decode(Users.self, from: data)
-            totalPage += userData.total!
-            if self.page < totalPage {
-                self.usersModel = self.usersModel + userData.data!
-                completion(usersModel)
+            do {
+                let decoder = JSONDecoder()
+                let userData = try decoder.decode(Users.self, from: data)
+                totalPage += userData.total!
+                if self.page < totalPage {
+                    self.usersModel = self.usersModel + userData.data!
+                    completion(usersModel)
+                    }
+                } catch let error {
+                    print(error)
                 }
-            } catch let error {
-                print(error)
-            }
         }
     }
     
@@ -139,7 +144,7 @@ class ViewController: UIViewController , editData {
         }
     }
     
-   func updatingData(userD: User?) {
+   func update(userD: User?) {
        
       if let row = self.usersModel.firstIndex(where: {$0.id == userD?.id}){
           usersModel[row] = userD!
@@ -334,9 +339,9 @@ extension ViewController :  UICollectionViewDelegate , UICollectionViewDataSourc
         
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
             let user = isFiltered ? filteredData![indexPath.row] : usersModel[indexPath.row]
-            cell.Name.text = user.first_name! + " " + user.last_name!
+            cell.name.text = user.first_name! + " " + user.last_name!
             let url =  user.avatar!
-            cell.Images.downloadedFrom(url)
+            cell.image.downloadedFrom(url)
             return cell
      }
 }

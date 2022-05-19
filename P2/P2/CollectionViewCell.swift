@@ -9,20 +9,20 @@ import UIKit
 import Foundation
 class CollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet var Name: UILabel!
-    @IBOutlet var Images: UIImageView!
+    @IBOutlet var name: UILabel!
+    @IBOutlet var image: UIImageView!
 }
 
-let ImageCache = NSCache<NSString, UIImage>()
+let imageCache = NSCache<NSString, UIImage>()
 
-// MARK: -
+// MARK: - UIImageView Extension
 
 extension UIImageView{
     
     func downloadedFrom(_ urlS : String) {
         
         self.image = nil
-        if let cacheImage = ImageCache.object(forKey: NSString(string: urlS)){
+        if let cacheImage = imageCache.object(forKey: NSString(string: urlS)){
             
             self.image = cacheImage
         }
@@ -44,7 +44,8 @@ extension UIImageView{
                 DispatchQueue.main.async {
                     
                     self.image = downloadImage
-                    ImageCache.setObject(downloadImage, forKey:  NSString(string: urlS) )
+                    imageCache.setObject(downloadImage, forKey:  NSString(string: urlS))
+                    
                 }
             }
         }.resume()
