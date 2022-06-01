@@ -17,8 +17,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="icN-fF-JAt">
+                                <rect key="frame" x="0.0" y="44" width="375" height="31"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-c4-SoS">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="31"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3J-EU-BQB">
+                                                <rect key="frame" x="0.0" y="0.0" width="171" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Go To CollectionView"/>
+                                                <connections>
+                                                    <action selector="swichView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W8i-KB-KPh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsw-fb-1hf">
+                                                <rect key="frame" x="204" y="0.0" width="171" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="gray" title="Logout"/>
+                                                <connections>
+                                                    <action selector="LogOutBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pwH-oX-Qb5"/>
+                                                    <segue destination="ldo-lg-51i" kind="push" id="drV-cw-3Hw"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <searchBar contentMode="redraw" id="qTS-9I-HE3">
+                                        <rect key="frame" x="0.0" y="31" width="375" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="vlN-pR-znF"/>
+                                        </connections>
+                                    </searchBar>
+                                </subviews>
+                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" dataMode="prototypes" id="jea-OX-FWp">
-                                <rect key="frame" x="0.0" y="188" width="414" height="674"/>
+                                <rect key="frame" x="0.0" y="205" width="375" height="561"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rvd-Jr-PCS">
@@ -29,7 +64,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="CaT-ah-S3k" customClass="CollectionViewCell" customModule="P2" customModuleProvider="target">
-                                        <rect key="frame" x="1" y="0.0" width="412" height="102"/>
+                                        <rect key="frame" x="-18.666666666666668" y="0.0" width="412" height="102"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="lbv-E1-7BG">
                                             <rect key="frame" x="0.0" y="0.0" width="412" height="102"/>
@@ -70,15 +105,15 @@
                                 </connections>
                             </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="AAB-uS-zBB">
-                                <rect key="frame" x="0.0" y="188" width="414" height="577"/>
+                                <rect key="frame" x="0.0" y="205" width="375" height="561"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="143" id="bes-Bh-HGC">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="143"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="143"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bes-Bh-HGC" id="T2n-RM-5Av">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="143"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="143"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
@@ -91,59 +126,44 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="yT1-DJ-uPm"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsw-fb-1hf">
-                                <rect key="frame" x="211" y="79" width="203" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Logout"/>
-                                <connections>
-                                    <action selector="LogOutBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pwH-oX-Qb5"/>
-                                    <segue destination="ldo-lg-51i" kind="push" id="drV-cw-3Hw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3J-EU-BQB">
-                                <rect key="frame" x="0.0" y="79" width="189" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Go To CollectionView"/>
-                                <connections>
-                                    <action selector="Button:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ax9-3N-8dG"/>
-                                    <action selector="ButtonT:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wzx-Hu-eta"/>
-                                </connections>
-                            </button>
-                            <searchBar contentMode="redraw" id="qTS-9I-HE3">
-                                <rect key="frame" x="0.0" y="118" width="375" height="51"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="vlN-pR-znF"/>
-                                </connections>
-                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="icN-fF-JAt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CNw-69-sCv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="icN-fF-JAt" secondAttribute="trailing" id="QJn-6a-lNh"/>
+                            <constraint firstItem="icN-fF-JAt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="h03-eZ-9Q3"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="X3Y-hg-z52">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" title="Undo" id="vcs-Hh-YeR" userLabel="Undo">
-                            <connections>
-                                <action selector="undoButton:" destination="BYZ-38-t0r" id="eOg-cY-7hY"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Undo" id="vcs-Hh-YeR" userLabel="Undo">
+                                <connections>
+                                    <action selector="undoButton:" destination="BYZ-38-t0r" id="eOg-cY-7hY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Flip" id="lc6-Lh-orl" userLabel="Flip">
+                                <connections>
+                                    <action selector="flip:" destination="BYZ-38-t0r" id="HMb-5J-RD0"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="button" destination="h3J-EU-BQB" id="YEK-q0-l9p"/>
-                        <outlet property="collectionView" destination="jea-OX-FWp" id="KUm-Ea-Oyk"/>
-                        <outlet property="searchBar" destination="qTS-9I-HE3" id="kq0-Vg-cE6"/>
-                        <outlet property="tableView" destination="AAB-uS-zBB" id="XPX-6u-Sil"/>
+                        <outlet property="collectionView" destination="jea-OX-FWp" id="2wa-f6-2F3"/>
+                        <outlet property="flipButton" destination="lc6-Lh-orl" id="WGa-2D-rZE"/>
+                        <outlet property="searchBar" destination="qTS-9I-HE3" id="tLE-ce-5Ut"/>
+                        <outlet property="swichView" destination="h3J-EU-BQB" id="nnv-I7-uoa"/>
+                        <outlet property="tableView" destination="AAB-uS-zBB" id="kKE-A3-tq1"/>
                         <outlet property="undoButton" destination="vcs-Hh-YeR" id="xYj-9z-pha"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1740" y="102"/>
+            <point key="canvasLocation" x="1740" y="101.97044334975369"/>
         </scene>
         <!--Deatailes View Controller-->
         <scene sceneID="sLV-KF-hjz">
@@ -184,7 +204,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Edit"/>
                                         <connections>
-                                            <action selector="EditButoon:" destination="do3-x3-NTj" eventType="touchUpInside" id="CvE-p6-ujN"/>
+                                            <action selector="editButton:" destination="do3-x3-NTj" eventType="touchUpInside" id="hIz-x2-bH5"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PRH-W5-4oC">
@@ -198,7 +218,7 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Save"/>
                                                 <connections>
-                                                    <action selector="Save:" destination="do3-x3-NTj" eventType="touchUpInside" id="8eW-oi-gBq"/>
+                                                    <action selector="save:" destination="do3-x3-NTj" eventType="touchUpInside" id="jFO-lL-9AQ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ju1-Nh-qun">
@@ -209,7 +229,7 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="gray" title="Cancel"/>
                                                 <connections>
-                                                    <action selector="Cancel:" destination="do3-x3-NTj" eventType="touchUpInside" id="aQE-IC-U4n"/>
+                                                    <action selector="cancel:" destination="do3-x3-NTj" eventType="touchUpInside" id="gur-pM-W6a"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -227,13 +247,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="Scw-0k-Bzh"/>
                     <connections>
-                        <outlet property="cancel" destination="Ju1-Nh-qun" id="Nbo-fY-du6"/>
-                        <outlet property="editButton" destination="JGq-Co-4AA" id="bme-ag-jvH"/>
+                        <outlet property="cancel" destination="Ju1-Nh-qun" id="tJn-eE-Sjd"/>
+                        <outlet property="editButton" destination="JGq-Co-4AA" id="Uo7-n8-Uyd"/>
                         <outlet property="email" destination="SLn-fq-Ibu" id="BDQ-z3-rUO"/>
                         <outlet property="firstName" destination="hkq-IX-z6p" id="Xcc-GN-1GB"/>
                         <outlet property="image" destination="PLL-qx-IbP" id="H7p-4l-eEX"/>
                         <outlet property="lastName" destination="6Wu-yH-ges" id="DOq-kg-JLB"/>
-                        <outlet property="save" destination="B1n-tq-vLb" id="DfT-gW-IQG"/>
+                        <outlet property="save" destination="B1n-tq-vLb" id="SRr-yB-3JL"/>
                         <outlet property="view" destination="d01-HE-uzJ" id="2qO-l2-Yva"/>
                     </connections>
                 </viewController>

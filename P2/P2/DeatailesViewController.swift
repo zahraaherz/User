@@ -70,12 +70,13 @@ class DeatailesViewController: UIViewController{
 
     }
     
-    @IBAction func editButoon(_ sender: Any){
+    @IBAction func editButton(_ sender: Any) {
         
         self.enableText()
-        
+
     }
-    
+
+
     @IBAction  func save(_ sender: Any){
         
         if self.email.text != nil && self.firstName.text != nil && self.lastName.text != nil{

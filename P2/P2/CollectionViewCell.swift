@@ -11,6 +11,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var name: UILabel!
     @IBOutlet var image: UIImageView!
+
 }
 
 let imageCache = NSCache<NSString, UIImage>()

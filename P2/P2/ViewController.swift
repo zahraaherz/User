@@ -11,16 +11,17 @@ import _Concurrency
 
 class ViewController: UIViewController , EditData {
     
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var swichView: UIButton!
     @IBOutlet weak var undoButton: UIBarButtonItem!
+    @IBOutlet weak var flipButton: UIBarButtonItem!
     
     var myAlert: UIAlertController = UIAlertController()
     
     var usersModel = [User]()
-
+        
     var filteredData: [User]!
     
     var selectedData: User?
@@ -29,13 +30,18 @@ class ViewController: UIViewController , EditData {
     
     var isFiltered = false
     
+    var isSwiched = false
+    
+    var isFliped = false
+    
+    var isReversed = false
+    
     var totalPage = 0
         
-    var page = 1
-    
-    var swichViews = 1
-   
-   
+    var page = 0
+        
+    var index = 0
+           
     override func viewDidLoad(){
         
         super.viewDidLoad()
@@ -45,10 +51,15 @@ class ViewController: UIViewController , EditData {
         self.present(myAlert,animated: false, completion: nil)
         
         self.navigationItem.setHidesBackButton(true, animated: false)
-        // undo button is visable
-        self.navigationItem.leftBarButtonItem?.isEnabled = false
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
-
+        
+        //undo button
+        self.navigationItem.rightBarButtonItems?.first?.isEnabled = false
+        self.navigationItem.rightBarButtonItems?.first?.tintColor = UIColor.clear
+        
+        // Flip Button
+        self.navigationItem.rightBarButtonItems?.last?.isEnabled = false
+        self.navigationItem.rightBarButtonItems?.last?.tintColor = UIColor.clear
+        
         self.fetchUsers { data in
                 self.usersModel = data
                 DispatchQueue.main.async {
@@ -57,49 +68,49 @@ class ViewController: UIViewController , EditData {
                 }
             }
         
-        if swichViews == 1 {
-            
-            collectionView.isHidden = true
-            button.setTitle("Go To CollectionView", for: .normal)
-            swichViews += 1
-         }
-        
+        collectionView.isHidden = true
+        swichView.setTitle("Go To CollectionView", for: .normal)
         filteredData = usersModel
     }
     
     @IBAction func undoButton(_ sender: Any) {
-        usersModel.insert(contentsOf: saveData, at: (((saveData.first?.id)!) - 1 ))
+        
+        let userId = saveData.first?.id
+        let index = userId! - 1
+        usersModel.insert(contentsOf: saveData, at: index)
         saveData.removeAll()
         tableView.reloadData()
     }
-    
-    @IBAction func ButtonT(_ sender: Any){
+
+    @IBAction func swichView(_ sender: Any){
          
-       switch swichViews {
+       switch isSwiched {
            
-            case 1:
+            case true :
                 tableView.isHidden = false
                 collectionView.isHidden = true
            
                 (sender as AnyObject).setTitle("Go To CollectionView", for: .normal)
            
-                swichViews += 1
+                isSwiched = false
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
                 
-            case 2:
+            case false:
                 tableView.isHidden = true
                 collectionView.isHidden = false
            
+                self.navigationItem.rightBarButtonItems?.last?.isEnabled = true
+                self.navigationItem.rightBarButtonItems?.last?.tintColor = UIColor.blue
+           
                 (sender as AnyObject).setTitle("Go To TableView", for: .normal)
            
-                swichViews -= 1
+                isSwiched = true
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
-            default:
-                break
+
         }
     }
     
@@ -107,6 +118,62 @@ class ViewController: UIViewController , EditData {
         
         UserDefaults.standard.removeObject(forKey: "In")
     }
+    
+    @IBAction func flip(_ sender: Any) {
+        
+        if self.index < self.usersModel.count - 1 {
+            if self.isFliped {
+
+                flipp(  data: self.usersModel )
+                self.isFliped = false
+
+            } else if !self.isFliped {
+                
+                let reverse: [User] = self.usersModel.reversed()
+                flipp( data: reverse )
+                self.isFliped = true
+            }
+        }
+    }
+    
+ 
+    
+    func flipp ( data: [User]  )
+    {
+            let visibleItems = collectionView.indexPathsForVisibleItems
+            collectionView.isScrollEnabled = false
+        
+            let indexPath = IndexPath(row: visibleItems[index].row , section: 0)
+            let cell =  collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+            let user = self.isFiltered ? self.filteredData![indexPath.row] : data[indexPath.row]
+            cell.name.text = user.first_name! + " " + user.last_name!
+            let url =  user.avatar!
+            cell.image.downloadedFrom(url)
+
+            CollectionViewCell.transition(with: cell , duration: 0.5, options: .transitionFlipFromLeft , animations:{
+
+            }, completion: { (finished) in
+                
+                self.index = self.index + 1
+                
+                if self.index < self.collectionView.visibleCells.count   {
+                    if self.isFliped {
+
+                        self.flipp(  data: self.usersModel )
+                        self.isFliped = false
+
+                    } else if !self.isFliped {
+
+                        let reverse: [User] = self.usersModel.reversed()
+                        self.flipp( data: reverse )
+                        self.isFliped = true
+                    }
+                } else {
+                    self.index = 0
+                    self.collectionView.isScrollEnabled = true
+                }
+            })
+   }
     
     func fetchUsers(completion: @escaping ([User])-> () ){
         
@@ -174,6 +241,13 @@ class ViewController: UIViewController , EditData {
         }
     }
     
+}
+
+
+// MARK: - scrollViewDidScroll
+
+extension ViewController {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView){
         
         for cell : UITableViewCell in tableView.visibleCells{
@@ -185,13 +259,14 @@ class ViewController: UIViewController , EditData {
                     page = page + 1
                     self.fetchUsers { data in
                         self.usersModel = data
+                        
                        if(self.tableView.isHidden == false ){
                            
                             DispatchQueue.main.async{
                                 
                                 self.tableView.reloadData()
-                                
                             }
+                           
                         } else if(self.tableView.isHidden == true ){
                             
                             DispatchQueue.main.async {
@@ -205,7 +280,8 @@ class ViewController: UIViewController , EditData {
             }
         }
     }
-} // end viewcontroller
+}
+
 
 // MARK: - UITableViewDelegate & UITableViewDataSource
 
@@ -247,8 +323,10 @@ extension ViewController:  UITableViewDelegate, UITableViewDataSource {
 
             cancelAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                 
-                self.navigationItem.leftBarButtonItem?.isEnabled = true
-                self.navigationItem.rightBarButtonItem?.tintColor = UIColor.blue
+                //self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.navigationItem.rightBarButtonItems?.first?.isEnabled = true
+                self.navigationItem.rightBarButtonItems?.first?.tintColor = UIColor.blue
+                //self.navigationItem.rightBarButtonItem?.tintColor = UIColor.blue
                 self.saveData.insert(self.usersModel[indexPath.row], at: 0)
                 
                 let delayTime = DispatchTime.now() + 3.0
@@ -256,6 +334,8 @@ extension ViewController:  UITableViewDelegate, UITableViewDataSource {
                        
                        self.navigationItem.leftBarButtonItem?.isEnabled = false
                        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
+                       
+                       self.saveData.removeAll()
                    })
                 
                 self.usersModel.remove(at: indexPath.row)
@@ -325,8 +405,13 @@ extension ViewController : UISearchBarDelegate {
 
 // MARK: - UICollectionViewDelegate & UICollectionViewDataSource
 
-extension ViewController :  UICollectionViewDelegate , UICollectionViewDataSource {
+extension ViewController :  UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
+    {
+        return usersModel.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if !isFiltered {
@@ -338,14 +423,16 @@ extension ViewController :  UICollectionViewDelegate , UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
-            let user = isFiltered ? filteredData![indexPath.row] : usersModel[indexPath.row]
-            cell.name.text = user.first_name! + " " + user.last_name!
-            let url =  user.avatar!
-            cell.image.downloadedFrom(url)
-            return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
+        let user = isFiltered ? filteredData![indexPath.row] : usersModel[indexPath.row]
+        cell.name.text = user.first_name! + " " + user.last_name!
+        let url =  user.avatar!
+        cell.image.downloadedFrom(url)
+
+        return cell
      }
 }
+
 
 //LEarn/
 
