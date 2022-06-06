@@ -20,6 +20,7 @@
 		5E1A72DB27F5890C00D2F54B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1A72DA27F5890C00D2F54B /* User.swift */; };
 		5E950E4A27FD6DFB004D36D8 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E950E4927FD6DFB004D36D8 /* LogInViewController.swift */; };
 		5EC1581C2806AEF500151263 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1581B2806AEF500151263 /* CollectionViewCell.swift */; };
+		5ECB33F9284DF10D008341C7 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECB33F8284DF10D008341C7 /* Animator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		5E1A72DA27F5890C00D2F54B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5E950E4927FD6DFB004D36D8 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		5EC1581B2806AEF500151263 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		5ECB33F8284DF10D008341C7 /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 		891544CB02E9DA4BAFD24B0D /* Pods-P2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-P2.debug.xcconfig"; path = "Target Support Files/Pods-P2/Pods-P2.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 				5E091E8027FCC425008DD015 /* DeatailesViewController.swift */,
 				5E950E4927FD6DFB004D36D8 /* LogInViewController.swift */,
 				5EC1581B2806AEF500151263 /* CollectionViewCell.swift */,
+				5ECB33F8284DF10D008341C7 /* Animator.swift */,
 				5E952AD12814398C00B23CF5 /* Models */,
 				5E1A72CA27F57DDB00D2F54B /* Main.storyboard */,
 				5E1A72CD27F57DDF00D2F54B /* Assets.xcassets */,
@@ -232,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ECB33F9284DF10D008341C7 /* Animator.swift in Sources */,
 				5E1A72D927F585A100D2F54B /* Users.swift in Sources */,
 				5E1A72C927F57DDB00D2F54B /* ViewController.swift in Sources */,
 				5EC1581C2806AEF500151263 /* CollectionViewCell.swift in Sources */,

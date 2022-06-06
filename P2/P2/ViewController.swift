@@ -18,7 +18,11 @@ class ViewController: UIViewController , EditData {
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var flipButton: UIBarButtonItem!
     
+    typealias Animation = (UICollectionViewCell, IndexPath, UICollectionView) -> Void
+    
     var myAlert: UIAlertController = UIAlertController()
+    
+    var visibleRange : Range = 0..<0
     
     var usersModel = [User]()
         
@@ -32,16 +36,10 @@ class ViewController: UIViewController , EditData {
     
     var isSwiched = false
     
-    var isFliped = false
-    
-    var isReversed = false
-    
     var totalPage = 0
         
     var page = 0
-        
-    var index = 0
-           
+            
     override func viewDidLoad(){
         
         super.viewDidLoad()
@@ -91,7 +89,8 @@ class ViewController: UIViewController , EditData {
                 collectionView.isHidden = true
            
                 (sender as AnyObject).setTitle("Go To CollectionView", for: .normal)
-           
+                self.navigationItem.rightBarButtonItems?.last?.tintColor = UIColor.clear
+
                 isSwiched = false
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -121,60 +120,23 @@ class ViewController: UIViewController , EditData {
     
     @IBAction func flip(_ sender: Any) {
         
-        if self.index < self.usersModel.count - 1 {
-            if self.isFliped {
+        visibleRange = (collectionView.visibleCells.first?.tag)!..<((collectionView.visibleCells.last?.tag)!+1)
 
-                flipp(  data: self.usersModel )
-                self.isFliped = false
+        self.usersModel = self.usersModel.reversed()
 
-            } else if !self.isFliped {
-                
-                let reverse: [User] = self.usersModel.reversed()
-                flipp( data: reverse )
-                self.isFliped = true
-            }
-        }
+        self.collectionView.reloadData()
     }
     
- 
-    
-    func flipp ( data: [User]  )
-    {
-            let visibleItems = collectionView.indexPathsForVisibleItems
-            collectionView.isScrollEnabled = false
-        
-            let indexPath = IndexPath(row: visibleItems[index].row , section: 0)
-            let cell =  collectionView.cellForItem(at: indexPath) as! CollectionViewCell
-            let user = self.isFiltered ? self.filteredData![indexPath.row] : data[indexPath.row]
-            cell.name.text = user.first_name! + " " + user.last_name!
-            let url =  user.avatar!
-            cell.image.downloadedFrom(url)
-
-            CollectionViewCell.transition(with: cell , duration: 0.5, options: .transitionFlipFromLeft , animations:{
-
-            }, completion: { (finished) in
-                
-                self.index = self.index + 1
-                
-                if self.index < self.collectionView.visibleCells.count   {
-                    if self.isFliped {
-
-                        self.flipp(  data: self.usersModel )
-                        self.isFliped = false
-
-                    } else if !self.isFliped {
-
-                        let reverse: [User] = self.usersModel.reversed()
-                        self.flipp( data: reverse )
-                        self.isFliped = true
-                    }
-                } else {
-                    self.index = 0
-                    self.collectionView.isScrollEnabled = true
-                }
-            })
+    func createFlipAnimation(duration: TimeInterval, delayFactor: Double) -> Animation {
+       return { cell, indexPath, collectionView in
+           UIView.transition(with: cell.contentView,
+                             duration: delayFactor * Double(indexPath.row+1),
+                             options: .transitionFlipFromLeft,
+                             animations: nil,
+                             completion: nil)
+       }
    }
-    
+
     func fetchUsers(completion: @escaping ([User])-> () ){
         
         AF.request("https://reqres.in/api/users?page=\(page)", method: .get).response { [self] response in
@@ -428,9 +390,23 @@ extension ViewController :  UICollectionViewDelegate , UICollectionViewDataSourc
         cell.name.text = user.first_name! + " " + user.last_name!
         let url =  user.avatar!
         cell.image.downloadedFrom(url)
-
+        
+        cell.tag = indexPath.row
         return cell
      }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard visibleRange.contains(indexPath.row) else {
+            visibleRange = 0..<0
+            return
+        }
+        
+        let animation = createFlipAnimation(duration: 0.5, delayFactor: 0.5)
+        let animator = Animator(animation: animation)
+        animator.animate(cell: cell, at: indexPath, in: collectionView)
+
+    }
 }
 
 

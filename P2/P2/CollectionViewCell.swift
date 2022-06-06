@@ -15,6 +15,7 @@ class CollectionViewCell: UICollectionViewCell {
 }
 
 let imageCache = NSCache<NSString, UIImage>()
+typealias Animation = (UICollectionViewCell, IndexPath, UICollectionView) -> Void
 
 // MARK: - UIImageView Extension
 
@@ -50,5 +51,18 @@ extension UIImageView{
                 }
             }
         }.resume()
+    }
+}
+
+
+extension UICollectionView {
+    
+    func isLastVisibleCell(at indexPath: IndexPath) -> Bool {
+        //indexPathsForVisibleRows
+        guard let lastIndexPath = indexPathsForVisibleItems.last else {
+            return false
+        }
+        
+        return lastIndexPath == indexPath
     }
 }
